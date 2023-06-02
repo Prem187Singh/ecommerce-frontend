@@ -4,7 +4,7 @@ https://ldce-my.sharepoint.com/:v:/g/personal/22cspre036_ldce_ac_in/EU0PRM_KpSJM
 
 
 
-#Steps to run the project locally on your commputer .
+# Steps to run the project locally on your commputer .
 
 1. install Git , Node on your PC.
 2. use command " git clone https://github.com/Prem187Singh/ecommerce-frontend.git " to make your local copy of the project .
