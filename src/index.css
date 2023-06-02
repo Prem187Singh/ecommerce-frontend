@@ -1,4 +1,6 @@
 body {
+  background-color: #3C2A21;
+  color: #a0a0a0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -14,17 +16,22 @@ main {
 }
 .btn-primary,
 .btn-outline-primary {
-  background-color: #f0c040;
-  color: #000000;
+  background-color: #523f0b;
+  color: #f5f1f1;
 }
 .products {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
-
+th {
+  color: #a0a0a0;
+}
+td{
+  color: #a0a0a0;
+}
 .rating span {
-  color: #ffc000;
+  color: #524009;
 }
 
 .product {
