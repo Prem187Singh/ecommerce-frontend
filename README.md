@@ -1,6 +1,9 @@
-# ecommerce-frontend
+#Video tutorial to install the project
+https://ldce-my.sharepoint.com/:v:/g/personal/22cspre036_ldce_ac_in/EU0PRM_KpSJMrlVp_eEklmcBxOtDr8Ki90zv8SY8rSoN8w?e=HVHIsR
 
-Steps to run the project locally on your commputer .
+
+
+#Steps to run the project locally on your commputer .
 
 1. install Git , Node on your PC.
 2. use command " git clone https://github.com/Prem187Singh/ecommerce-frontend.git " to make your local copy of the project .
