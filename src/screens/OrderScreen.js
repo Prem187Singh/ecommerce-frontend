@@ -14,7 +14,8 @@ import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
 import { toast } from 'react-toastify';
-
+import StripeCheckout from 'react-stripe-checkout';
+const publishableKey ='pk_test_51NFaD5SBOUlMpREgdGV5UIIYsBd8A9Qjhool22Sjn1x3pGRLrGZtIdu9U3efNKT7Ocwzo0xu2PWScTfzdZoRY3Rn00WaHjIK6J';
 function reducer(state, action) {
   switch (action.type) {
     case 'FETCH_REQUEST':
@@ -51,7 +52,7 @@ function reducer(state, action) {
 export default function OrderScreen() {
   const { state } = useContext(Store);
   const { userInfo } = state;
-
+ 
   const params = useParams();
   const { id: orderId } = params;
   const navigate = useNavigate();
@@ -91,13 +92,13 @@ export default function OrderScreen() {
       });
   }
 
-  function onApprove(data, actions) {
-    return actions.order.capture().then(async function (details) {
+  async function  onApprove(tokens) {
+
       try {
         dispatch({ type: 'PAY_REQUEST' });
         const { data } = await axios.put(
-          `https://indiancoffeebazaar.onrender.com/api/orders/${order._id}/pay`,
-          details,
+          `/api/orders/${order._id}/pay`,
+          order,
           {
             headers: { authorization: `Bearer ${userInfo.token}` },
           }
@@ -108,7 +109,7 @@ export default function OrderScreen() {
         dispatch({ type: 'PAY_FAIL', payload: getError(err) });
         toast.error(getError(err));
       }
-    });
+
   }
   function onError(err) {
     toast.error(getError(err));
@@ -118,7 +119,7 @@ export default function OrderScreen() {
     const fetchOrder = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`https://indiancoffeebazaar.onrender.com/api/orders/${orderId}`, {
+        const { data } = await axios.get(`/api/orders/${orderId}`, {
           headers: { authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
@@ -145,7 +146,7 @@ export default function OrderScreen() {
       }
     } else {
       const loadPaypalScript = async () => {
-        const { data: clientId } = await axios.get('https://indiancoffeebazaar.onrender.com/api/keys/paypal', {
+        const { data: clientId } = await axios.get('/api/keys/paypal', {
           headers: { authorization: `Bearer ${userInfo.token}` },
         });
         paypalDispatch({
@@ -169,11 +170,18 @@ export default function OrderScreen() {
     successDeliver,
   ]);
 
+
+  const priceForStripe = order.totalPrice;
+
+
+
+
+
   async function deliverOrderHandler() {
     try {
       dispatch({ type: 'DELIVER_REQUEST' });
       const { data } = await axios.put(
-        `https://indiancoffeebazaar.onrender.com/api/orders/${order._id}/deliver`,
+        `/api/orders/${order._id}/deliver`,
         {},
         {
           headers: { authorization: `Bearer ${userInfo.token}` },
@@ -313,6 +321,17 @@ export default function OrderScreen() {
                           onApprove={onApprove}
                           onError={onError}
                         ></PayPalButtons>
+                         <StripeCheckout
+        stripeKey={publishableKey}
+        label="Pay Now"
+        name="Pay With Credit Card"
+        billingAddress
+        shippingAddress={order.shippingAddress}
+        amount={priceForStripe}
+        description={`Your total is ${order.totalPrice}`}
+        token={onApprove}
+       
+      />
                       </div>
                     )}
                     {loadingPay && <LoadingBox></LoadingBox>}
