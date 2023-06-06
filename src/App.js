@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes,  } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HomeScreen from './screens/HomeScreen';
@@ -40,13 +40,15 @@ import ResetPasswordScreen from './screens/ResetPasswordScreen';
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { fullBox, cart, userInfo } = state;
-
+  // const navigate = useNavigate();
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
     window.location.href = '/signin';
+
+    
   };
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
